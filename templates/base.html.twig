@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+{% block charset %}
+<meta charset="UTF-8">
+{% endblock %}
+
+<title>{% block title %}Welcome!{% endblock %}</title>
+
+<link rel="stylesheet"
+	href="{{ asset('libs/bootstrap/4.1.3/css/bootstrap.min.css') }}">
+<link rel="stylesheet"
+	href="{{ asset('libs/datatables/DataTables/1.10.18/css/dataTables.bootstrap4.min.css') }}">
+
+{% block stylesheets %}
+{% endblock %}
+
+<script type="text/javascript"
+	src="{{ asset('libs/jquery/3.3.1/js/jquery.min.js') }}"></script>
+<script type="text/javascript"
+	src="{{ asset('libs/popper.js/1.14.4/js/popper.min.js') }}"></script>
+<script type="text/javascript"
+	src="{{ asset('libs/bootstrap/4.1.3/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript"
+	src="{{ asset('libs/datatables/DataTables/1.10.18/js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript"
+	src="{{ asset('libs/datatables/DataTables/1.10.18/js/dataTables.bootstrap4.min.js') }}"></script>
+
+{% block javascripts %}
+{% endblock %}
+
+</head>
+<body>
+	<nav class="navbar navbar-expand navbar-dark bg-primary">
+		<a class="navbar-brand" href="#">フロント画面</a>
+	</nav>
+
+	{% if not message is not defined %}
+	<div class="container py-3">
+
+		{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+		{% endfor %}
+
+		{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+		{% endfor %}
+	</div>
+	{% endif%}
+
+	<div class="container py-3">
+		{% block body %}
+		{% endblock %}
+	</div>
+</body>
+</html>

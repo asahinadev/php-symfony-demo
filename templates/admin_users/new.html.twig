@@ -1,0 +1,27 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}
+{{ controller_name }}
+{% endblock %}
+
+{% block nav_link_users %}
+active
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<div class="col-lg-10 col-sm-12">
+		<h1>Create new Users</h1>
+	    {{ include('admin_users/_form.html.twig') }}
+	</div>
+	<div class="col-lg-2 col-sm-12">
+		<div class="list-group">
+			<a class="list-group-item" href="{{ path('admin_users') }}">{{ 'User Index'|trans }}</a>
+			<a class="list-group-item active disable" href="{{ path('admin_users_new') }}">{{ 'User Create new'|trans }}</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

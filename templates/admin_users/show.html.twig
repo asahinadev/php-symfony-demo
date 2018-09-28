@@ -1,0 +1,85 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}
+{{ controller_name }}
+{% endblock %}
+
+{% block nav_link_users %}
+active
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<div class="col-lg-10 col-sm-12">
+		<h1>Users</h1>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>
+						{{ user.id }}
+					</td>
+				</tr>
+				<tr>
+					<th>Username</th>
+					<td>
+						{{ user.username }}
+					</td>
+				</tr>
+				<tr>
+					<th>Password</th>
+					<td>
+						{{ user.password }}
+					</td>
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td>
+						{{ user.email }}
+					</td>
+				</tr>
+				<tr>
+					<th>Created</th>
+					<td>
+						{{ user.created ? user.created|date('Y-m-d H:i:s') : '' }}
+					</td>
+				</tr>
+				<tr>
+					<th>Updated</th>
+					<td>
+						{{ user.updated ? user.updated|date('Y-m-d H:i:s') : '' }}
+					</td>
+				</tr>
+				<tr>
+					<th>Del_flag</th>
+					<td>
+						{{ user.delFlag ? 'Yes' : 'No' }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-lg-2 col-sm-12">
+		<div class="list-group">
+			<a class="list-group-item" href="{{ path('admin_users') }}">{{ 'User Index'|trans }}</a>
+			<a class="list-group-item" href="{{ path('admin_users_new') }}">{{ 'User Create new'|trans }}</a>
+			<a class="list-group-item active disable"
+				href="{{ path('admin_users_show', {'id': user.id}) }}">{{ 'User View'|trans }}</a>
+			<a class="list-group-item"
+				href="{{ path('admin_users_edit', {'id': user.id}) }}">{{ 'User Edit'|trans }}</a>
+		</div>
+
+		<div class="card">
+			<div class="card-body">
+				{{ include('admin_users/_delete_form.html.twig') }}
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}
+
+

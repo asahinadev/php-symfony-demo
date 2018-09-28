@@ -1,0 +1,36 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}
+{{ controller_name }}
+{% endblock %}
+
+{% block nav_link_home %}
+active
+{% endblock %}
+
+{% block body %}
+
+{% if error %}
+<div class="alert alert-danger">
+	{{ error.message|trans }}
+</div>
+{% endif %}
+
+<div class="card mx-auto" style="width: 600px;">
+	<div class="card-header">Login</div>
+	<div class="card-body">
+
+		{{ form_start(form, { 'attr' : {'novalidate' :  true } } ) }}
+		<fieldset>
+			{{ form_row(form.username) }}
+			{{ form_row(form.password) }}
+			{{ form_row(form.login) }}
+
+			<input type="hidden" name="_csrf_token"
+				value="{{ csrf_token('authenticate') }}">
+		</fieldset>
+		{{ form_end(form) }}
+		
+	</div>
+</div>
+{% endblock %}

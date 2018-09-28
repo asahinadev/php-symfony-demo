@@ -1,0 +1,47 @@
+table.table th {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.table .text {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+table.table .date {
+	min-width: 130px;
+	max-width: 130px;
+	width: 130px;
+	min-width: 8rem;
+	max-width: 8rem;
+	width: 8rem;
+}
+
+table.table .bool {
+	min-width: 50px;
+	max-width: 50px;
+	width: 50px;
+	min-width: 3rem;
+	max-width: 3rem;
+	width: 3rem;
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.table .action {
+	min-width: 320px;
+	max-width: 320px;
+	width: 320px;
+	min-width: 20rem;
+	max-width: 20rem;
+	width: 20rem;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+div.table-area {
+	border: 1px solid black;
+	min-height: 700px;
+}

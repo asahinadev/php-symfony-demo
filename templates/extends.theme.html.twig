@@ -1,0 +1,11 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{#% block plain_text_row -%}
+<div class="form-group">
+	{{- form_label(form) -}}
+	<div>
+		<div class="form-control">{{ value }}</div>
+        {{- form_widget(form) -}}
+	</div>
+</div>
+{%- endblock plain_text_row %#}

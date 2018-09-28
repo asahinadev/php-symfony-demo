@@ -1,0 +1,117 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}
+{{ controller_name }}
+{% endblock %}
+
+{% block nav_link_users %}
+active
+{% endblock %}
+
+{% block javascripts %}
+<script>
+	$(function() {
+		$("#users").DataTable({
+			'dom' : "<'row'<'col-3'i><'col-9'p>>tr",
+			'columnDefs' : [ {
+				'targets' : "id",
+				'searchable' : false,
+				'width' : '45px'
+			}, {
+				'targets' : "date",
+				'searchable' : false,
+				'width' : '80px'
+			}, {
+				'targets' : "hide",
+				'searchable' : false,
+				'orderable' : false,
+				'visible' : false,
+			}, {
+				'targets' : -1,
+				'searchable' : false,
+				'orderable' : false,
+				'width' : '80px'
+			} ]
+		});
+	});
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+	<div class="col-lg-10 col-sm-12">
+		<h1>Users index</h1>
+		<table class="table table-bordered table-striped table-hover"
+			id="users">
+			<thead>
+				<tr>
+					<th class="id">Id</th>
+					<th>Username</th>
+					<th class="hide">Password</th>
+					<th class="hide">Email</th>
+					<th class="date">Created</th>
+					<th class="date">Updated</th>
+					<th class="hide">Del_flag</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+				<tr>
+					<td class="id text-right">
+						{{ user.id }}
+					</td>
+					<td>
+						{{ user.username }}
+					</td>
+					<td class="hide">
+						{{ user.password }}
+					</td>
+					<td class="hide">
+						{{ user.email }}
+					</td>
+					<td class="date">
+						{{ user.created ? user.created|date('Y-m-d') : '' }}
+					</td>
+					<td class="date">
+						{{ user.updated ? user.updated|date('Y-m-d') : '' }}
+					</td>
+					<td class="hide">
+						{{ user.delFlag ? 'Yes' : 'No' }}
+					</td>
+					<td>
+						<div class="dropdown">
+							<button class="btn btn-sm btn-primary dropdown-toggle"
+								type="button" id="user_action_{{ user.id }}"
+								data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">action</button>
+
+							<div class="dropdown-menu"
+								aria-labelledby="user_action_{{ user.id }}">
+								<a class="dropdown-item"
+									href="{{ path('admin_users_show', {'id': user.id}) }}">{{ 'Show'|trans }}</a>
+								<!--  -->
+								<span class="dropdown-divider"></span>
+								<!--  -->
+								<a class="dropdown-item"
+									href="{{ path('admin_users_edit', {'id': user.id}) }}">{{ 'Edit'|trans }}</a>
+							</div>
+						</div>
+					</td>
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="col-lg-2 col-sm-12">
+		<div class="list-group">
+			<a class="list-group-item active disable" href="{{ path('admin_users') }}">{{ 'User Index'|trans }}</a>
+			<a class="list-group-item" href="{{ path('admin_users_new') }}">{{ 'User Create new'|trans }}</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+
+{{ form_row(form.username) }}
+{{ form_row(form.password) }}
+{{ form_row(form.email)    }}
+{{ form_row(form.created)  }}
+{{ form_row(form.updated)  }}
+{{ form_row(form.del_flag) }}
+
+<div class="row">
+	<div class="col-2">
+		<button type="submit" class="btn btn-primary btn-block">
+			{{ button_label|default('Save') }}
+		</button>
+	</div>
+	<div class="col-2">
+		<button type="reset" class="btn btn-secondary btn-block">
+			{{ button_label|default('Reset') }}
+		</button>
+	</div>
+</div>
+{{ form_end(form) }}
