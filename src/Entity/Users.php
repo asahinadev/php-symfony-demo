@@ -3,7 +3,6 @@ namespace App\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *
@@ -24,25 +23,18 @@ class Users implements UserInterface
     /**
      *
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotNull()
-     * @Assert\Length(max=50)
      */
     private $username;
 
     /**
      *
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull(groups={"r"})
-     * @Assert\Length(max=255)
      */
     private $password;
 
     /**
      *
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull()
-     * @Assert\Length(max=255)
-     * @Assert\Email()
      */
     private $email;
 

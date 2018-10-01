@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Valid;
 
 class UsersType extends AbstractType
 {
@@ -26,9 +27,35 @@ class UsersType extends AbstractType
             'attr' => [
                 'novalidate' => true
             ],
-            'username_options' => [],
-            'password_options' => [],
-            'email_options' => []
+            'username_options' => [
+                "constraints" => [
+                    new Valid\NotBlank(),
+                    new Valid\Length([
+                        'min' => 5,
+                        'max' => 50
+                    ])
+                ]
+            ],
+            'password_options' => [
+                "always_empty" => false,
+                "constraints" => [
+                    new Valid\NotBlank(),
+                    new Valid\Length([
+                        'min' => 8,
+                        'max' => 255
+                    ])
+                ]
+            ],
+            'email_options' => [
+                "constraints" => [
+                    new Valid\NotBlank(),
+                    new Valid\Length([
+                        'min' => 8,
+                        'max' => 255
+                    ]),
+                    new Valid\Email()
+                ]
+            ]
         ]);
     }
 }
