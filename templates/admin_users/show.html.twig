@@ -13,56 +13,70 @@ active
 
 {% block body %}
 <div class="row">
-	<div class="col-lg-10 col-sm-12">
-		<h1>Users</h1>
-		<table class="table">
-			<tbody>
-				<tr>
-					<th>Id</th>
-					<td>
+	<div class="col pt-5">
+		<div class="card">
+			<h1 class="card-header">
+				{{ "Users Info"|trans }}
+			</h1>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3">
+						{{ "Id"|trans }}
+					</div>
+					<div class="col">
 						{{ user.id }}
-					</td>
-				</tr>
-				<tr>
-					<th>Username</th>
-					<td>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						{{ "Username"|trans }}
+					</div>
+					<div class="col">
 						{{ user.username }}
-					</td>
-				</tr>
-				<tr>
-					<th>Password</th>
-					<td>
-						{{ user.password }}
-					</td>
-				</tr>
-				<tr>
-					<th>Email</th>
-					<td>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						{{ "Password"|trans }}
+					</div>
+					<div class="col">********</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						{{ "Email"|trans }}
+					</div>
+					<div class="col">
 						{{ user.email }}
-					</td>
-				</tr>
-				<tr>
-					<th>Created</th>
-					<td>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						{{ "Created"|trans }}
+					</div>
+					<div class="col">
 						{{ user.created ? user.created|date('Y-m-d H:i:s') : '' }}
-					</td>
-				</tr>
-				<tr>
-					<th>Updated</th>
-					<td>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						{{ "Updated"|trans }}
+					</div>
+					<div class="col">
 						{{ user.updated ? user.updated|date('Y-m-d H:i:s') : '' }}
-					</td>
-				</tr>
-				<tr>
-					<th>Del_flag</th>
-					<td>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						{{ "Del_flag"|trans }}
+					</div>
+					<div class="col">
 						{{ user.delFlag ? 'Yes' : 'No' }}
-					</td>
-				</tr>
-			</tbody>
-		</table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="col-lg-2 col-sm-12">
+	<div class="col-sm-12 col-md-4 col-xl-3 pt-5">
 		<div class="list-group">
 			<a class="list-group-item" href="{{ path('admin_users') }}">{{ 'User Index'|trans }}</a>
 			<a class="list-group-item" href="{{ path('admin_users_new') }}">{{ 'User Create new'|trans }}</a>
@@ -70,16 +84,11 @@ active
 				href="{{ path('admin_users_show', {'id': user.id}) }}">{{ 'User View'|trans }}</a>
 			<a class="list-group-item"
 				href="{{ path('admin_users_edit', {'id': user.id}) }}">{{ 'User Edit'|trans }}</a>
-		</div>
-
-		<div class="card">
-			<div class="card-body">
+			<div class="list-group-item">
 				{{ include('admin_users/_delete_form.html.twig') }}
 			</div>
 		</div>
-
 	</div>
 </div>
 {% endblock %}
-
 

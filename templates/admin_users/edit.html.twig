@@ -25,14 +25,10 @@ active
 				href="{{ path('admin_users_show', {'id': user.id}) }}">{{ 'User View'|trans }}</a>
 			<a class="list-group-item active disable"
 				href="{{ path('admin_users_edit', {'id': user.id}) }}">{{ 'User Edit'|trans }}</a>
-		</div>
-
-		<div class="card">
-			<div class="card-body">
+			<div class="list-group-item">
 				{{ include('admin_users/_delete_form.html.twig') }}
 			</div>
 		</div>
-
 	</div>
 </div>
 {% endblock %}

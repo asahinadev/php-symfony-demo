@@ -14,19 +14,25 @@ class LoginType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username', TextType::class)
-            ->add('password', PasswordType::class)
-            ->add("login", SubmitType::class, [
-            "attr" => [
-                "class" => "btn btn-primary"
-            ]
-        ]);
+        $builder->add('username', TextType::class, $options["username_options"])
+            ->add('password', PasswordType::class, $options["password_options"])
+            ->add("login", SubmitType::class, $options["login_options"]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Users::class
+            'data_class' => Users::class,
+            'username_options' => [],
+            'password_options' => [],
+            'login_options' => [
+                "attr" => [
+                    "class" => "btn btn-primary"
+                ]
+            ],
+            'attr' => [
+                'novalidate' => true
+            ]
         ]);
     }
 }

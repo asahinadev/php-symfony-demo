@@ -2,7 +2,6 @@
 namespace App\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,6 +14,7 @@ class Users implements UserInterface
 {
 
     /**
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -22,6 +22,7 @@ class Users implements UserInterface
     private $id;
 
     /**
+     *
      * @ORM\Column(type="string", length=50)
      * @Assert\NotNull()
      * @Assert\Length(max=50)
@@ -29,13 +30,15 @@ class Users implements UserInterface
     private $username;
 
     /**
+     *
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull()
+     * @Assert\NotNull(groups={"r"})
      * @Assert\Length(max=255)
      */
     private $password;
 
     /**
+     *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotNull()
      * @Assert\Length(max=255)
@@ -44,6 +47,7 @@ class Users implements UserInterface
     private $email;
 
     /**
+     *
      * @ORM\Column(type="datetime")
      */
     private $created;

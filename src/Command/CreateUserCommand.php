@@ -10,6 +10,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Repository\UsersRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CreateUserCommand extends Command
 {
@@ -34,12 +35,20 @@ class CreateUserCommand extends Command
      */
     protected $repository;
 
-    public function __construct(ManagerRegistry $registry)
+    /**
+     *
+     * @var UserPasswordEncoderInterface
+     */
+    protected $encoder;
+
+    public function __construct(ManagerRegistry $registry, UserPasswordEncoderInterface $encoder)
     {
         parent::__construct();
+
         $this->registry = $registry;
         $this->em = $this->registry->getManager();
         $this->repository = $this->em->getRepository(Users::class);
+        $this->encoder = $encoder;
     }
 
     protected function configure()
@@ -64,7 +73,7 @@ class CreateUserCommand extends Command
 
         $user = new Users();
         $user->setUsername($username);
-        $user->setPassword($password);
+        $user->setPassword($this->encoder->encodePassword($user, $password));
         $user->setEmail($email);
 
         $io->note(sprintf('check username: %s', $username));

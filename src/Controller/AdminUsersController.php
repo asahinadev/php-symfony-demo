@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\UsersType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  *
@@ -16,6 +17,12 @@ use App\Form\UsersType;
 class AdminUsersController extends AbstractController
 {
 
+    protected function render(string $view, array $parameters = array(), Response $response = null): Response
+    {
+        $parameters["controller_name"] = "AdminUsersController";
+        return parent::render($view, $parameters, $response);
+    }
+
     /**
      *
      * @Route("/", name="admin_users", methods="GET")
@@ -23,7 +30,6 @@ class AdminUsersController extends AbstractController
     public function index(UsersRepository $usersRepository): Response
     {
         return $this->render('admin_users/index.html.twig', [
-            'controller_name' => 'AdminUsersController',
             'users' => $usersRepository->findAll()
         ]);
     }
@@ -32,13 +38,17 @@ class AdminUsersController extends AbstractController
      *
      * @Route("/new", name="admin_users_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // ˆÃ†‰»
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -49,7 +59,6 @@ class AdminUsersController extends AbstractController
         }
 
         return $this->render('admin_users/new.html.twig', [
-            'controller_name' => 'AdminUsersController',
             'user' => $user,
             'form' => $form->createView()
         ]);
@@ -62,7 +71,6 @@ class AdminUsersController extends AbstractController
     public function show(Users $user): Response
     {
         return $this->render('admin_users/show.html.twig', [
-            'controller_name' => 'AdminUsersController',
             'user' => $user
         ]);
     }
@@ -71,15 +79,24 @@ class AdminUsersController extends AbstractController
      *
      * @Route("/{id}/edit", name="admin_users_edit", methods="GET|POST")
      */
-    public function edit(Request $request, Users $user): Response
+    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
     {
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()
-                ->getManager()
-                ->flush();
+
+            $doctrine = $this->getDoctrine();
+
+            if ($user->getPassword()) {
+                // ˆÃ†‰»
+                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+            } else {
+                $oldUser = $doctrine->getRepository(Users::class)->find($user->getId());
+                $user->setPassword($oldUser->getPassword());
+            }
+
+            $doctrine->getManager()->flush();
 
             return $this->redirectToRoute('admin_users_edit', [
                 'id' => $user->getId()
@@ -87,7 +104,6 @@ class AdminUsersController extends AbstractController
         }
 
         return $this->render('admin_users/edit.html.twig', [
-            'controller_name' => 'AdminUsersController',
             'user' => $user,
             'form' => $form->createView()
         ]);
@@ -100,8 +116,9 @@ class AdminUsersController extends AbstractController
     public function delete(Request $request, Users $user): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $user->setDelFlag("1");
+
             $em = $this->getDoctrine()->getManager();
-            $em->remove($user);
             $em->flush();
         }
 

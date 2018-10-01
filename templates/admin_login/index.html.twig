@@ -20,7 +20,7 @@ active
 	<div class="card-header">Login</div>
 	<div class="card-body">
 
-		{{ form_start(form, { 'attr' : {'novalidate' :  true } } ) }}
+		{{ form_start(form) }}
 		<fieldset>
 			{{ form_row(form.username) }}
 			{{ form_row(form.password) }}
@@ -30,7 +30,7 @@ active
 				value="{{ csrf_token('authenticate') }}">
 		</fieldset>
 		{{ form_end(form) }}
-		
+
 	</div>
 </div>
 {% endblock %}
