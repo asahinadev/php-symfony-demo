@@ -12,65 +12,79 @@ active
 {% endblock %}
 
 {% block body %}
-<div class="row">
+<div class="form-group row">
 	<div class="col pt-5">
 		<div class="card">
 			<h1 class="card-header">
 				{{ "Users Info"|trans }}
 			</h1>
 			<div class="card-body">
-				<div class="row">
-					<div class="col-3">
+				<div class="form-group row">
+					<div class="col-form-label col-3 ">
 						{{ "Id"|trans }}
 					</div>
 					<div class="col">
-						{{ user.id }}
+						<div class="form-control">
+							{{ user.id }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-3">
+				<div class="form-group row">
+					<div class="col-form-label col-3 ">
 						{{ "Username"|trans }}
 					</div>
 					<div class="col">
-						{{ user.username }}
+						<div class="form-control">
+							{{ user.username }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-3">
+				<div class="form-group row">
+					<div class="col-form-label col-3 ">
 						{{ "Password"|trans }}
 					</div>
-					<div class="col">********</div>
+					<div class="col">
+						<div class="form-control">********</div>
+					</div>
 				</div>
-				<div class="row">
-					<div class="col-3">
+				<div class="form-group row">
+					<div class="col-form-label col-3 ">
 						{{ "Email"|trans }}
 					</div>
 					<div class="col">
-						{{ user.email }}
+						<div class="form-control">
+							{{ user.email }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-3">
+				<div class="form-group row">
+					<div class="col-form-label col-3 ">
 						{{ "Created"|trans }}
 					</div>
 					<div class="col">
-						{{ user.created ? user.created|date('Y-m-d H:i:s') : '' }}
+						<div class="form-control">
+							{{ user.created ? user.created|date('Y-m-d H:i:s') : '' }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-3">
+				<div class="form-group row">
+					<div class="col-form-label col-3 ">
 						{{ "Updated"|trans }}
 					</div>
 					<div class="col">
-						{{ user.updated ? user.updated|date('Y-m-d H:i:s') : '' }}
+						<div class="form-control">
+							{{ user.updated ? user.updated|date('Y-m-d H:i:s') : '' }}
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-3">
+				<div class="form-group row">
+					<div class="col-form-label col-3 ">
 						{{ "Del_flag"|trans }}
 					</div>
 					<div class="col">
-						{{ user.delFlag ? 'Yes' : 'No' }}
+						<div class="form-control">
+							{{ user.delFlag ? 'Yes' : 'No' }}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -91,4 +105,3 @@ active
 	</div>
 </div>
 {% endblock %}
-

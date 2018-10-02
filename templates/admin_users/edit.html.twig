@@ -14,8 +14,14 @@ active
 {% block body %}
 <div class="row">
 	<div class="col-lg-10 col-sm-12">
-		<h1>Edit Users</h1>
-		{{ include('admin_users/_form.html.twig', {'button_label': 'Update'}) }}
+		<div class="card">
+			<h1 class="card-header">
+				{{ "Edit Users"|trans }}
+			</h1>
+			<div class="card-body">
+				{{ include('admin_users/_form.html.twig') }}
+			</div>
+		</div>
 	</div>
 	<div class="col-lg-2 col-sm-12">
 		<div class="list-group">

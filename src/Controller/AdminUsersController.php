@@ -81,6 +81,8 @@ class AdminUsersController extends AbstractController
      */
     public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
     {
+        $oldPass = $user->getPassword();
+
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
@@ -88,12 +90,9 @@ class AdminUsersController extends AbstractController
 
             $doctrine = $this->getDoctrine();
 
-            if ($user->getPassword()) {
+            if (strcmp($oldPass, $user->getPassword()) !== 0) {
                 // ˆÃ†‰»
                 $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-            } else {
-                $oldUser = $doctrine->getRepository(Users::class)->find($user->getId());
-                $user->setPassword($oldUser->getPassword());
             }
 
             $doctrine->getManager()->flush();
