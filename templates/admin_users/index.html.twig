@@ -18,6 +18,10 @@ active
 				'searchable' : false,
 				'width' : '45px'
 			}, {
+				'targets' : "gender",
+				'searchable' : false,
+				'width' : '80px'
+			}, {
 				'targets' : "date",
 				'searchable' : false,
 				'width' : '80px'
@@ -49,6 +53,7 @@ active
 					<th>Username</th>
 					<th class="hide">Password</th>
 					<th class="hide">Email</th>
+					<th class="gender">Gender</th>
 					<th class="date">Created</th>
 					<th class="date">Updated</th>
 					<th class="hide">Del_flag</th>
@@ -69,6 +74,9 @@ active
 					</td>
 					<td class="hide">
 						{{ user.email }}
+					</td>
+					<td class="gender">
+						{{ user.gender.name }}
 					</td>
 					<td class="date">
 						{{ user.created ? user.created|date('Y-m-d') : '' }}
@@ -109,8 +117,9 @@ active
 	</div>
 	<div class="col-lg-2 col-sm-12">
 		<div class="list-group">
-			<a class="list-group-item active disable" href="{{ path('admin_users') }}">{{ 'User Index'|trans }}</a>
-			<a class="list-group-item" href="{{ path('admin_users_new') }}">{{ 'User Create new'|trans }}</a>
+			<a class="list-group-item active disable"
+				href="{{ path('admin_users') }}">{{ 'User Index'|trans }}</a> <a
+				class="list-group-item" href="{{ path('admin_users_new') }}">{{ 'User Create new'|trans }}</a>
 		</div>
 	</div>
 </div>

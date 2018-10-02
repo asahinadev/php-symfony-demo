@@ -11,6 +11,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Repository\UsersRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\Genders;
 
 class CreateUserCommand extends Command
 {
@@ -87,6 +88,12 @@ class CreateUserCommand extends Command
         } else if ($user2) {
             $io->error(sprintf("deplicated email    = %s", $email));
         } else {
+
+            $gendersRepository = $this->em->getRepository(Genders::class);
+            $gender = $gendersRepository->find(0);
+
+            $user->setGender($gender);
+
             $this->em->persist($user);
             $this->em->flush();
         }

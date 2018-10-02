@@ -33,7 +33,7 @@ final class Version20180926040751 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $table = $schema->createTable("users");
+        $table = $schema->getTable("users");
         $schema->dropTable($table->getName());
     }
 }

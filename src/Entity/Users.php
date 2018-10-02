@@ -56,6 +56,12 @@ class Users implements UserInterface
      */
     private $del_flag;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Genders")
+     */
+    private $gender;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -129,6 +135,18 @@ class Users implements UserInterface
     public function setDelFlag(bool $del_flag): self
     {
         $this->del_flag = $del_flag;
+
+        return $this;
+    }
+
+    public function getGender(): ?Genders
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?Genders $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }
