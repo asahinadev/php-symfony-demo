@@ -50,7 +50,7 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(LoginType::class, $user);
 
-        return $this->render('admin_login/index.html.twig', [
+        return $this->render('admin/login/index.html.twig', [
             'error' => $error,
             'form' => $form->createView()
         ]);
@@ -62,6 +62,6 @@ class AdminController extends AbstractController
      */
     public function logout(LoggerInterface $logger)
     {
-        return $this->render('admin_logout/index.html.twig');
+        return $this->render('admin/logout/index.html.twig');
     }
 }
