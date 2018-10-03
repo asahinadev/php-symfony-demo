@@ -28,6 +28,13 @@ class UsersType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $years = [
+            0 => "未回答"
+        ];
+        foreach (range(1900, date("Y")) as $year) {
+            $years[$year] = sprintf("%s 年", $year);
+        }
+
         $resolver->setDefaults([
             'data_class' => Users::class,
             'attr' => [
@@ -74,8 +81,7 @@ class UsersType extends AbstractType
                 'choice_label' => 'name'
             ],
             "birthday_year_options" => [
-                "choices" => array_combine(range(1900, date("Y")), range(1900, date("Y"))),
-                "data" => date("Y") - 20
+                "choices" => array_flip($years)
             ]
         ]);
     }
