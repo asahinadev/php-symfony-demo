@@ -9,18 +9,18 @@ use Doctrine\DBAL\Types\TextType;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181002051750 extends AbstractMigration
+final class Version20181003002120 extends AbstractMigration
 {
 
     const TABLE_NAME = "users";
 
-    const INDEX_NAME = "idx_user_genders";
+    const INDEX_NAME = "idx_user_prefs";
 
-    const FKEY_NAME = "fk_user_genders";
+    const FKEY_NAME = "fk_user_prefs";
 
-    const FKEY_COLUMN = "gender_id";
+    const FKEY_COLUMN = "pref_id";
 
-    const FKEY_TABLE = "genders";
+    const FKEY_TABLE = "prefs";
 
     public function up(Schema $schema): void
     {

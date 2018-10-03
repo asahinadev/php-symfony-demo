@@ -20,6 +20,7 @@ class AdminController extends AbstractController
     }
 
     /**
+     * 管理画面.
      *
      * @Route("/admin", name="admin")
      */
@@ -29,6 +30,8 @@ class AdminController extends AbstractController
     }
 
     /**
+     * 管理画面 ログイン.
+     *
      *
      * @Route("/admin/login", name="admin_login")
      */
@@ -57,6 +60,8 @@ class AdminController extends AbstractController
     }
 
     /**
+     * 管理画面 ログアウト.
+     *
      *
      * @Route("/admin/logout", name="admin_logout")
      */

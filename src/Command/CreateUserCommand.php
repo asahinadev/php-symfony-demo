@@ -12,6 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use App\Repository\UsersRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\Genders;
+use App\Entity\Prefs;
 
 class CreateUserCommand extends Command
 {
@@ -90,9 +91,15 @@ class CreateUserCommand extends Command
         } else {
 
             $gendersRepository = $this->em->getRepository(Genders::class);
-            $gender = $gendersRepository->find(0);
+            $prefsRepository = $this->em->getRepository(Prefs::class);
 
+            // 性別
+            $gender = $gendersRepository->find(0);
             $user->setGender($gender);
+
+            // 都道府県
+            $pref = $prefsRepository->find(0);
+            $user->setPref($pref);
 
             $this->em->persist($user);
             $this->em->flush();

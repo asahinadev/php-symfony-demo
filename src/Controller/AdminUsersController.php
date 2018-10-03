@@ -24,6 +24,7 @@ class AdminUsersController extends AbstractController
     }
 
     /**
+     * 管理画面 ユーザー管理（一覧）.
      *
      * @Route("/", name="admin_users", methods="GET")
      */
@@ -35,6 +36,7 @@ class AdminUsersController extends AbstractController
     }
 
     /**
+     * 管理画面 ユーザー管理（登録）.
      *
      * @Route("/new", name="admin_users_new", methods="GET|POST")
      */
@@ -46,7 +48,7 @@ class AdminUsersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // �Í���
+            // パスワードエンコード
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
 
             $em = $this->getDoctrine()->getManager();
@@ -65,6 +67,7 @@ class AdminUsersController extends AbstractController
     }
 
     /**
+     * 管理画面 ユーザー管理（詳細）.
      *
      * @Route("/{id}", name="admin_users_show", methods="GET")
      */
@@ -76,6 +79,7 @@ class AdminUsersController extends AbstractController
     }
 
     /**
+     * 管理画面 ユーザー管理（更新）.
      *
      * @Route("/{id}/edit", name="admin_users_edit", methods="GET|POST")
      */
@@ -91,7 +95,7 @@ class AdminUsersController extends AbstractController
             $doctrine = $this->getDoctrine();
 
             if (strcmp($oldPass, $user->getPassword()) !== 0) {
-                // �Í���
+                // パスワードエンコード
                 $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             }
 
@@ -109,6 +113,7 @@ class AdminUsersController extends AbstractController
     }
 
     /**
+     * 管理画面 ユーザー管理（削除）.
      *
      * @Route("/{id}", name="admin_users_delete", methods="DELETE")
      */

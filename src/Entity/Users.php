@@ -62,6 +62,12 @@ class Users implements UserInterface
      */
     private $gender;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Prefs")
+     */
+    private $pref;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -147,6 +153,18 @@ class Users implements UserInterface
     public function setGender(?Genders $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getPref(): ?Prefs
+    {
+        return $this->pref;
+    }
+
+    public function setPref(?Prefs $pref): self
+    {
+        $this->pref = $pref;
 
         return $this;
     }

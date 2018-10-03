@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Valid;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Genders;
+use App\Entity\Prefs;
 
 class UsersType extends AbstractType
 {
@@ -19,7 +20,8 @@ class UsersType extends AbstractType
         $builder->add('username', TextType::class, $options["username_options"])
             ->add('password', TextType::class, $options["password_options"])
             ->add('email', EmailType::class, $options["email_options"])
-            ->add("gender", EntityType::class, $options["gender_options"]);
+            ->add("gender", EntityType::class, $options["gender_options"])
+            ->add("pref", EntityType::class, $options["pref_options"]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -61,6 +63,12 @@ class UsersType extends AbstractType
                 'expanded' => false,
                 'multiple' => false,
                 'class' => Genders::class,
+                'choice_label' => 'name'
+            ],
+            'pref_options' => [
+                'expanded' => false,
+                'multiple' => false,
+                'class' => Prefs::class,
                 'choice_label' => 'name'
             ]
         ]);
