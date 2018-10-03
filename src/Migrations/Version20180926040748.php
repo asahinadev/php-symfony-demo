@@ -13,11 +13,11 @@ final class Version20180926040748 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // SQL を実行しない（ terminate )
+        // SQL migration terminate
     }
 
     public function down(Schema $schema): void
     {
-        // SQL を実行しない（ terminate )
+        // SQL migration terminate
     }
 }

@@ -26,10 +26,7 @@ final class Version20181002051750 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $table = $schema->getTable(self::TABLE_NAME);
-        $table->addColumn(self::FKEY_COLUMN, TextType::INTEGER)
-            ->setUnsigned(true)
-            ->setDefault("0")
-            ->setNotnull(true);
+        $table->addColumn(self::FKEY_COLUMN, TextType::INTEGER)->setNotnull(false);
         $table->addIndex((array) self::FKEY_COLUMN, self::INDEX_NAME);
         $table->addForeignKeyConstraint(self::FKEY_TABLE, (array) self::FKEY_COLUMN, (array) "id", [], self::FKEY_NAME);
     }

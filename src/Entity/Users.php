@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(indexes={
+ *     @ORM\Index(name="idx_user_genders",columns={"gender_id"}),
+ *     @ORM\Index(name="idx_user_prefs"  ,columns={"pref_id"}),
+ * })
  */
 class Users implements UserInterface
 {
@@ -40,33 +44,41 @@ class Users implements UserInterface
 
     /**
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $created;
 
     /**
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",options={"default" : "CURRENT_TIMESTAMP"})
      */
     private $updated;
 
     /**
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",options={"default" : false })
      */
     private $del_flag;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Genders")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $gender;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Prefs")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $pref;
+
+    /**
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $birthday_year;
 
     public function getId(): ?int
     {
@@ -208,5 +220,17 @@ class Users implements UserInterface
     {
         $now = new \DateTime();
         $this->setUpdated($now);
+    }
+
+    public function getBirthdayYear(): ?int
+    {
+        return $this->birthday_year;
+    }
+
+    public function setBirthdayYear(int $birthday_year): self
+    {
+        $this->birthday_year = $birthday_year;
+
+        return $this;
     }
 }

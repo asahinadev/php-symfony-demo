@@ -10,10 +10,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Prefs
 {
 
+    public function __construct($id = 0, $name = "unanswered", $ruby = "unanswered", $code = null)
+    {
+        if (is_null($code)) {
+            $code = sprint_f("%02d", $id);
+        }
+        $this->id = $id;
+        $this->name = $name;
+        $this->ruby = $ruby;
+        $this->code = $code;
+    }
+
     /**
      *
      * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -75,5 +85,10 @@ class Prefs
         $this->code = $code;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

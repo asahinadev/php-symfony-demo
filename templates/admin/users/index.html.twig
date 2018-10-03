@@ -81,10 +81,10 @@ active
 						{{ user.email }}
 					</td>
 					<td class="gender">
-						{{ user.gender.name }}
+						{{ (user.gender ?: "Unanswered")|trans }}
 					</td>
 					<td class="pref">
-						{{ user.pref.name }}
+						{{ (user.pref ?: "Unanswered")|trans }}
 					</td>
 					<td class="date">
 						{{ user.created ? user.created|date('Y-m-d') : '' }}

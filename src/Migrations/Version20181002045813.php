@@ -23,7 +23,7 @@ final class Version20181002045813 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $table = $schema->createTable(self::TABLE_NAME);
-        $table->addColumn("id", TextType::INTEGER)->setUnsigned(true);
+        $table->addColumn("id", TextType::INTEGER);
         $table->addColumn("name", TextType::STRING)->setLength(50);
         $table->setPrimaryKey((array) "id");
     }

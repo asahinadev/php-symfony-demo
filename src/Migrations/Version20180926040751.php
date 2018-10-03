@@ -12,14 +12,18 @@ use Doctrine\DBAL\Types\TextType;
 final class Version20180926040751 extends AbstractMigration
 {
 
+    const TABLE_NAME = "users";
+
+    private static function master($id, $username, $password, $email)
+    {
+        return compact("id", "username", "password", "email");
+    }
+
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $table = $schema->createTable("users");
-        $table->addColumn("id", TextType::INTEGER)
-            ->setUnsigned(true)
-            ->setAutoincrement(true);
-
+        $table = $schema->createTable(self::TABLE_NAME);
+        $table->addColumn("id", TextType::INTEGER)->setAutoincrement(true);
         $table->addColumn("username", TextType::STRING)->setLength(50);
         $table->addColumn("password", TextType::STRING)->setLength(255);
         $table->addColumn("email", TextType::STRING)->setLength(255);
@@ -30,10 +34,15 @@ final class Version20180926040751 extends AbstractMigration
         $table->setPrimaryKey((array) "id");
     }
 
+    public function postUp(Schema $schema)
+    {
+        $this->connection->insert(self::TABLE_NAME, self::master(1, 'system', '$2y$12$VmCANtMHpirByAlEIDXqUO.IIYKhm4gDTE1ZlyCVV82QREnowlNKC', 'system@localhost'));
+    }
+
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $table = $schema->getTable("users");
+        $table = $schema->getTable(self::TABLE_NAME);
         $schema->dropTable($table->getName());
     }
 }

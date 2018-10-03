@@ -2,22 +2,20 @@
 namespace App\Command;
 
 use App\Entity\Users;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
-use App\Repository\UsersRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\Genders;
-use App\Entity\Prefs;
+use App\Repository\UsersRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class CreateUserCommand extends Command
+class UpdateUserPasswordCommand extends Command
 {
 
-    protected static $defaultName = 'app:create-user';
+    protected static $defaultName = 'update-user-password';
 
     /**
      *
@@ -65,10 +63,9 @@ class CreateUserCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('create new user.')
+        $this->setDescription('Add a short description for your command')
             ->addArgument('username', InputArgument::REQUIRED, 'login id')
-            ->addArgument('password', InputArgument::REQUIRED, 'login password')
-            ->addArgument('email', InputArgument::REQUIRED, 'send to password');
+            ->addArgument('password', InputArgument::REQUIRED, 'login password');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -77,42 +74,16 @@ class CreateUserCommand extends Command
 
         $username = $input->getArgument('username');
         $password = $input->getArgument('password');
-        $email = $input->getArgument('email');
 
         $io->writeln(sprintf('You passed an username: %s', $username));
         $io->writeln(sprintf('You passed an password: %s', $password));
-        $io->writeln(sprintf('You passed an email   : %s', $email));
 
-        $user = new Users();
-        $user->setUsername($username);
-        $user->setPassword($this->encoder->encodePassword($user, $password));
-        $user->setEmail($email);
-
-        $io->note(sprintf('check username: %s', $username));
-        $user1 = $this->repository->findByUsername($username);
-
-        $io->note(sprintf('check email   : %s', $email));
-        $user2 = $this->repository->findByEmail($email);
-
-        if ($user1) {
-            $io->error(sprintf("deplicated username = %s", $username));
-        } else if ($user2) {
-            $io->error(sprintf("deplicated email    = %s", $email));
-        } else {
-
-            $gendersRepository = $this->em->getRepository(Genders::class);
-            $prefsRepository = $this->em->getRepository(Prefs::class);
-
-            // 性別
-            $gender = $gendersRepository->find(0);
-            $user->setGender($gender);
-
-            // 都道府県
-            $pref = $prefsRepository->find(0);
-            $user->setPref($pref);
-
-            $this->em->persist($user);
+        $user = $this->repository->findByUsername($username);
+        if ($user) {
+            $user->setPassword($this->encoder->encodePassword($user, $password));
             $this->em->flush();
+        } else {
+            $io->error(sprintf("user not found %s", $username));
         }
     }
 }

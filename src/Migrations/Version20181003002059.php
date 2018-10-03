@@ -26,7 +26,7 @@ final class Version20181003002059 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $table = $schema->createTable(self::TABLE_NAME);
-        $table->addColumn("id", TextType::INTEGER)->setUnsigned(true);
+        $table->addColumn("id", TextType::INTEGER);
         $table->addColumn("name", TextType::STRING)->setLength(50);
         $table->addColumn("ruby", TextType::STRING)->setLength(50);
         $table->addColumn("code", TextType::STRING)->setLength(10);

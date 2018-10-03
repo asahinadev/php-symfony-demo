@@ -9,34 +9,24 @@ use Doctrine\DBAL\Types\TextType;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181003002120 extends AbstractMigration
+final class Version20181003060630 extends AbstractMigration
 {
 
     const TABLE_NAME = "users";
 
-    const INDEX_NAME = "idx_user_prefs";
-
-    const FKEY_NAME = "fk_user_prefs";
-
-    const FKEY_COLUMN = "pref_id";
-
-    const FKEY_TABLE = "prefs";
+    const COLUMN_NAME = "birthday_year";
 
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $table = $schema->getTable(self::TABLE_NAME);
-        $table->addColumn(self::FKEY_COLUMN, TextType::INTEGER)->setNotnull(false);
-        $table->addIndex((array) self::FKEY_COLUMN, self::INDEX_NAME);
-        $table->addForeignKeyConstraint(self::FKEY_TABLE, (array) self::FKEY_COLUMN, (array) "id", [], self::FKEY_NAME);
+        $table->addColumn(self::COLUMN_NAME, TextType::INTEGER)->setNotnull(false);
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $table = $schema->getTable(self::TABLE_NAME);
-        $table->removeForeignKey(self::FKEY_NAME);
-        $table->dropIndex(self::INDEX_NAME);
-        $table->dropColumn(self::FKEY_COLUMN, TextType::INTEGER);
+        $table->dropColumn(self::COLUMN_NAME, TextType::INTEGER);
     }
 }
