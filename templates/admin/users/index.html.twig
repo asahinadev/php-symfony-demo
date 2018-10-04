@@ -57,6 +57,7 @@ active
 					<th class="text">{{ "Username"|trans }}</th>
 					<th class="hide">{{ "Password"|trans }}</th>
 					<th class="hide">{{ "Email"|trans }}</th>
+					<th class="date">{{ "Birthday Year"|trans }}</th>
 					<th class="gender">{{ "Gender"|trans }}</th>
 					<th class="pref">{{ "Pref"|trans }}</th>
 					<th class="date">{{ "Created"|trans }}</th>
@@ -68,33 +69,20 @@ active
 			<tbody>
 				{% for user in users %}
 				<tr>
-					<td class="id text-right">
-						{{ user.id }}
+					<td class="id text-right">{{ user.id }}</td>
+					<td class="text">{{ user.username }}</td>
+					<td class="hide">{{ user.password }}</td>
+					<td class="hide">{{ user.email }}</td>
+					<td class="gender">{{ user.birthdayYear|default("----") }}
 					</td>
-					<td>
-						{{ user.username }}
+					<td class="gender">{{ user.gender|default("Unanswered")|trans }}
 					</td>
-					<td class="hide">
-						{{ user.password }}
+					<td class="pref">{{ user.pref|default("Unanswered")|trans }}</td>
+					<td class="date">{{ user.created ? user.created|date('Y-m-d') : '' }}
 					</td>
-					<td class="hide">
-						{{ user.email }}
+					<td class="date">{{ user.updated ? user.updated|date('Y-m-d') : '' }}
 					</td>
-					<td class="gender">
-						{{ (user.gender ?: "Unanswered")|trans }}
-					</td>
-					<td class="pref">
-						{{ (user.pref ?: "Unanswered")|trans }}
-					</td>
-					<td class="date">
-						{{ user.created ? user.created|date('Y-m-d') : '' }}
-					</td>
-					<td class="date">
-						{{ user.updated ? user.updated|date('Y-m-d') : '' }}
-					</td>
-					<td class="hide">
-						{{ user.delFlag ? 'Yes' : 'No' }}
-					</td>
+					<td class="hide">{{ user.delFlag ? 'Yes' : 'No' }}</td>
 					<td>
 						<div class="dropdown">
 							<button class="btn btn-sm btn-primary dropdown-toggle"
