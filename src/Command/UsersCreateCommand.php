@@ -1,66 +1,37 @@
 <?php
 namespace App\Command;
 
+use App\Entity\Genders;
+use App\Entity\Prefs;
 use App\Entity\Users;
-use Symfony\Component\Console\Command\Command;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
-use App\Repository\UsersRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\Genders;
-use App\Entity\Prefs;
 
-class CreateUserCommand extends Command
+/**
+ *
+ * @property Doctrine\Common\Persistence\ManagerRegistry $registry
+ * @property Doctrine\Common\Persistence\ObjectManager $em
+ * @property Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $encoder
+ * @property App\Repository\UsersRepository $Users
+ * @property App\Repository\GendersRepository $Genders
+ * @property App\Repository\PrefsRepository $Prefs
+ */
+class UsersCreateCommand extends BaseCommand
 {
 
-    protected static $defaultName = 'app:create-user';
-
-    /**
-     *
-     * @var ManagerRegistry
-     */
-    protected $registry;
-
-    /**
-     *
-     * @var ObjectManager
-     */
-    protected $em;
-
-    protected function em(): ObjectManager
-    {
-        return $this->em;
-    }
-
-    /**
-     *
-     * @var UsersRepository
-     */
-    protected $repository;
-
-    protected function repository(): UsersRepository
-    {
-        return $this->repository;
-    }
-
-    /**
-     *
-     * @var UserPasswordEncoderInterface
-     */
-    protected $encoder;
+    protected static $defaultName = 'app:users:create';
 
     public function __construct(ManagerRegistry $registry, UserPasswordEncoderInterface $encoder)
     {
-        parent::__construct();
+        parent::__construct($registry, $encoder);
 
-        $this->registry = $registry;
-        $this->em = $this->registry->getManager();
-        $this->repository = $this->em->getRepository(Users::class);
-        $this->encoder = $encoder;
+        $this->Users = $this->em->getRepository(Users::class);
+        $this->Genders = $this->em->getRepository(Genders::class);
+        $this->Prefs = $this->em->getRepository(Prefs::class);
     }
 
     protected function configure()
@@ -88,31 +59,28 @@ class CreateUserCommand extends Command
         $user->setPassword($this->encoder->encodePassword($user, $password));
         $user->setEmail($email);
 
-        $io->note(sprintf('check username: %s', $username));
-        $user1 = $this->repository->findByUsername($username);
-
-        $io->note(sprintf('check email   : %s', $email));
-        $user2 = $this->repository->findByEmail($email);
-
-        if ($user1) {
+        if ($this->Users->existsByUsername($username)) {
             $io->error(sprintf("deplicated username = %s", $username));
-        } else if ($user2) {
+        } else if ($this->Users->existsByEmail($email)) {
             $io->error(sprintf("deplicated email    = %s", $email));
         } else {
 
-            $gendersRepository = $this->em->getRepository(Genders::class);
-            $prefsRepository = $this->em->getRepository(Prefs::class);
-
             // 性別
-            $gender = $gendersRepository->find(0);
-            $user->setGender($gender);
+            $gender = $this->Genders->find(0);
+            if ($gender) {
+                $user->setGender($gender);
+            }
 
             // 都道府県
-            $pref = $prefsRepository->find(0);
-            $user->setPref($pref);
+            $pref = $this->Prefs->find(0);
+            if ($pref) {
+                $user->setPref($pref);
+            }
 
             $this->em->persist($user);
             $this->em->flush();
+
+            $io->success(sprintf("save user: %s", $username));
         }
     }
 }

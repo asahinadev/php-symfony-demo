@@ -3,62 +3,28 @@ namespace App\Command;
 
 use App\Entity\Users;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Repository\UsersRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 
-class UpdateUserPasswordCommand extends Command
+/**
+ *
+ * @property Doctrine\Common\Persistence\ManagerRegistry $registry
+ * @property Doctrine\Common\Persistence\ObjectManager $em
+ * @property Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $encoder
+ * @property App\Repository\UsersRepository $Users
+ */
+class UsersPasswordChangeCommand extends BaseCommand
 {
 
-    protected static $defaultName = 'update-user-password';
-
-    /**
-     *
-     * @var ManagerRegistry
-     */
-    protected $registry;
-
-    /**
-     *
-     * @var ObjectManager
-     */
-    protected $em;
-
-    protected function em(): ObjectManager
-    {
-        return $this->em;
-    }
-
-    /**
-     *
-     * @var UsersRepository
-     */
-    protected $repository;
-
-    protected function repository(): UsersRepository
-    {
-        return $this->repository;
-    }
-
-    /**
-     *
-     * @var UserPasswordEncoderInterface
-     */
-    protected $encoder;
+    protected static $defaultName = 'app:users:password-change';
 
     public function __construct(ManagerRegistry $registry, UserPasswordEncoderInterface $encoder)
     {
-        parent::__construct();
-
-        $this->registry = $registry;
-        $this->em = $this->registry->getManager();
-        $this->repository = $this->em->getRepository(Users::class);
-        $this->encoder = $encoder;
+        parent::__construct($registry, $encoder);
+        $this->Users = $this->em->getRepository(Users::class);
     }
 
     protected function configure()
@@ -78,10 +44,12 @@ class UpdateUserPasswordCommand extends Command
         $io->writeln(sprintf('You passed an username: %s', $username));
         $io->writeln(sprintf('You passed an password: %s', $password));
 
-        $user = $this->repository->findByUsername($username);
+        $user = $this->Users->findByUsername($username);
         if ($user) {
             $user->setPassword($this->encoder->encodePassword($user, $password));
             $this->em->flush();
+
+            $io->success(sprintf("save user: %s", $username));
         } else {
             $io->error(sprintf("user not found %s", $username));
         }
