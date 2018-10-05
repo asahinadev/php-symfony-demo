@@ -7,7 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\EntityListeners({
+ *     "App\EventListener\UsersListener"
+ * })
  * @ORM\Table(indexes={
  *     @ORM\Index(name="idx_user_genders",columns={"gender_id"}),
  *     @ORM\Index(name="idx_user_prefs"  ,columns={"pref_id"}),
@@ -181,6 +183,18 @@ class Users implements UserInterface
         return $this;
     }
 
+    public function getBirthdayYear(): ?int
+    {
+        return $this->birthday_year;
+    }
+
+    public function setBirthdayYear(int $birthday_year): self
+    {
+        $this->birthday_year = $birthday_year;
+
+        return $this;
+    }
+
     // UserInterface Start
     public function eraseCredentials()
     {
@@ -199,38 +213,4 @@ class Users implements UserInterface
     }
 
     // UserInterface End
-
-    /**
-     *
-     * @ORM\PrePersist()
-     */
-    public function doPrePersist()
-    {
-        $now = new \DateTime();
-        $this->setCreated($now);
-        $this->setUpdated($now);
-        $this->setDelFlag(false);
-    }
-
-    /**
-     *
-     * @ORM\PreUpdate
-     */
-    public function doPreUpdate()
-    {
-        $now = new \DateTime();
-        $this->setUpdated($now);
-    }
-
-    public function getBirthdayYear(): ?int
-    {
-        return $this->birthday_year;
-    }
-
-    public function setBirthdayYear(int $birthday_year): self
-    {
-        $this->birthday_year = $birthday_year;
-
-        return $this;
-    }
 }

@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  *
@@ -21,6 +22,18 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
  */
 class UsersRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
+
+    protected $passwordEncoder;
+
+    public function setPasswordEncoder(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
+    public function getPasswordEncoder()
+    {
+        return $this->passwordEncoder;
+    }
 
     public function __construct(RegistryInterface $registry)
     {

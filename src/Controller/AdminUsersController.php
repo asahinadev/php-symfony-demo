@@ -40,16 +40,13 @@ class AdminUsersController extends AbstractController
      *
      * @Route("/new", name="admin_users_new", methods="GET|POST")
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function new(Request $request): Response
     {
         $user = new Users();
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // パスワードエンコード
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -83,10 +80,8 @@ class AdminUsersController extends AbstractController
      *
      * @Route("/{id}/edit", name="admin_users_edit", methods="GET|POST")
      */
-    public function edit(Request $request, Users $user, UserPasswordEncoderInterface $encoder): Response
+    public function edit(Request $request, Users $user): Response
     {
-        $oldPass = $user->getPassword();
-
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
 
@@ -94,16 +89,17 @@ class AdminUsersController extends AbstractController
 
             $doctrine = $this->getDoctrine();
 
-            if (strcmp($oldPass, $user->getPassword()) !== 0) {
-                // パスワードエンコード
-                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-            }
-
             $doctrine->getManager()->flush();
+
+            $this->addFlash("success", "Update User Detail.");
 
             return $this->redirectToRoute('admin_users_edit', [
                 'id' => $user->getId()
             ]);
+        } else if ($form->isSubmitted()) {
+            $this->addFlash("error", "Failed User Detail.");
+        } else {
+            $this->addFlash("info", "Change For User Detail.");
         }
 
         return $this->render('admin/users/edit.html.twig', [
