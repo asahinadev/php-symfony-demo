@@ -13,3 +13,4 @@
 /.settings/
 /composer.lock
 /symfony.lock
+/composer.phar
